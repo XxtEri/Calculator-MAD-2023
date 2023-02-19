@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     }
     
     private var ui: View
+
+    var didSelectButtonHandler: ((TypeButtons) -> Void)?
     
     init() {
         self.ui = View(frame: .zero)
@@ -35,6 +37,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.logicCaluclator()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -53,7 +56,7 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource, U
             return UICollectionViewCell()
         }
 
-        cell.configure(with: TitleButtons.allCases[indexPath.row].rawValue)
+        cell.configure(with: TypeButtons.allCases[indexPath.row].rawValue)
         
         return cell
     }
@@ -64,7 +67,7 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource, U
         let otherSpace = collectionView.frame.width - insetsSum
         let cellWidth = otherSpace / CGFloat(Metrics.itemsInRow)
         
-        if TitleButtons.allCases[indexPath.row] == TitleButtons.zero {
+        if TypeButtons.allCases[indexPath.row] == TypeButtons.zero {
             return CGSize(width: 2 * cellWidth + Metrics.itemSpace, height: cellWidth)
         }
         
@@ -77,5 +80,37 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Metrics.lineSpace
+    }
+}
+
+extension ViewController {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        self.didSelectButtonHandler?(TypeButtons.allCases[indexPath.row])
+    }
+}
+
+private extension ViewController {
+    func logicCaluclator() {
+        self.didSelectButtonHandler = { [weak self] typeButton in
+            switch typeButton {
+            case .ac:
+                self?.ui.clearData()
+            case .addition:
+                print("addition")
+            case .subtraction:
+                print("subtraction")
+            case .multiplication:
+                print("multiplication")
+            case .division:
+                print("division")
+            case .positiveNegative:
+                self?.ui.changePositiveNegative()
+            default:
+                self?.ui.setNumber(typeButton.rawValue)
+                print("Number")
+            }
+        }
     }
 }

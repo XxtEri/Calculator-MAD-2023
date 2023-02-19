@@ -9,6 +9,11 @@ import UIKit
 import SnapKit
 
 class View: UIView {
+    private var firstNumber = String()
+    private var secondNumber = String()
+
+    var inputNextNumber = false
+    
     lazy var titleApp: UILabel =  {
         let view = UILabel()
         view.text = "Calculator"
@@ -22,9 +27,26 @@ class View: UIView {
     lazy var result: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.text = "8912"
         view.textColor = UIColor(named: "Answer")
         view.font = UIFont(name: view.font.fontName, size: 57)
+        
+        return view
+    }()
+    
+    lazy var input: UILabel = {
+        let view = UILabel()
+        view.textAlignment = .right
+        view.textColor = UIColor(named: "Text")
+        view.font = UIFont(name: view.font.fontName, size: 35)
+        view.numberOfLines = 1
+        
+        return view
+    }()
+    
+    lazy var delete: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "DeleteButton"))
+        view.contentMode = .scaleAspectFit
+        view.tintColor = UIColor(named: "DeleteButton")
         
         return view
     }()
@@ -39,6 +61,7 @@ class View: UIView {
     lazy var buttons: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor(named: "BackgroundApp")
+        
         view.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier)
         
         return view
@@ -69,6 +92,51 @@ extension View {
         self.buttons.delegate = delegate
         self.buttons.dataSource = dataOutput
     }
+    
+    func setNumber(_ number: String) {
+        if !self.inputNextNumber {
+            self.firstNumber += number
+            self.input.text = self.firstNumber
+            
+        } else {
+            self.secondNumber += number
+            self.input.text = self.secondNumber
+        }
+    }
+    
+    func clearData() {
+        self.firstNumber = String()
+        self.secondNumber = String()
+        self.input.text = String()
+        self.result.text = String()
+    }
+    
+    func changePositiveNegative() {
+        if !self.inputNextNumber {
+            self.firstNumber = "-" + firstNumber
+            self.input.text = self.firstNumber
+            
+        } else {
+            self.secondNumber = "-" + secondNumber
+            self.input.text = self.secondNumber
+        }
+    }
+    
+    func addition() {
+        
+    }
+    
+    func subtraction() {
+        
+    }
+    
+    func multiplication() {
+        
+    }
+    
+    func division() {
+        
+    }
 }
 
 private extension View {
@@ -76,37 +144,13 @@ private extension View {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
         
-        let input = getInputLabel()
-        let removeButton = getImageView()
-        
-        stack.addArrangedSubview(input)
-        stack.addArrangedSubview(removeButton)
-        stack.setCustomSpacing(25, after: input)
+        stack.addArrangedSubview(self.input)
+        stack.addArrangedSubview(self.delete)
+        stack.setCustomSpacing(25, after: self.input)
         
         self.stackInput.addArrangedSubview(stack)
     }
     
-    func getInputLabel() -> UILabel {
-        let view = UILabel()
-        view.textAlignment = .right
-        view.text = "891123"
-        view.textColor = UIColor(named: "Text")
-        view.font = UIFont(name: view.font.fontName, size: 35)
-        view.numberOfLines = 1
-        
-        return view
-    }
-    
-    func getImageView() -> UIImageView {
-        let view = UIImageView(image: UIImage(named: "DeleteButton"))
-        view.contentMode = .scaleAspectFit
-        view.tintColor = UIColor(named: "DeleteButton")
-        
-        return view
-    }
-}
-
-private extension View {
     func setup() {
         configure()
         configureConstraints()
@@ -139,4 +183,5 @@ private extension View {
             make.horizontalEdges.equalToSuperview().inset(24)
         }
     }
+    
 }

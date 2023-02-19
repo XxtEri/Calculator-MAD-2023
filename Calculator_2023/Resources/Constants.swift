@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum TitleButtons: String, CaseIterable {
+enum TypeButtons: String, CaseIterable {
     case ac = "AC"
-    case changePositiveNegative = "±"
+    case positiveNegative = "±"
     case percent = "%"
     case division = "÷"
     
