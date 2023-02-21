@@ -10,12 +10,14 @@ import Foundation
 class CalculatorScreenPresenter {
     private var ui: CalculatorScreenView
     private var viewController: CalculatorScreenViewController?
+    private var buisnessLogic: CalculatorScreenBuisnessLogic
     
     private var firstNumber = String()
     private var secondNumber = String()
 
-    init() {
+    init(buisnessLogic: CalculatorScreenBuisnessLogic) {
         self.ui = CalculatorScreenView()
+        self.buisnessLogic = buisnessLogic
     }
     
     func setViewController(vc: CalculatorScreenViewController) {
@@ -45,22 +47,6 @@ private extension CalculatorScreenPresenter {
                 print("Number")
             }
         }
-    }
-    
-    func additionNumber() {
-        
-    }
-    
-    func subtractionNumber() {
-        
-    }
-    
-    func multiplicationNumber() {
-        
-    }
-    
-    func divisionNumber() {
-        
     }
 }
 

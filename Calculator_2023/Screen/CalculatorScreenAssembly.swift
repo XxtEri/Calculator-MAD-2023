@@ -9,7 +9,7 @@ import UIKit
 
 enum CalculatorScreenAssembly {
     static func build() -> UIViewController {
-        let presenter = CalculatorScreenPresenter()
+        let presenter = CalculatorScreenPresenter(buisnessLogic: CalculatorScreenBuisnessLogic())
         let viewContoller = CalculatorScreenViewController(presenter: presenter)
         
         presenter.setViewController(vc: viewContoller)
