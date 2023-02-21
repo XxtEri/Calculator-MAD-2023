@@ -9,6 +9,7 @@ import UIKit
 
 class CalculatorScreenViewController: UIViewController {
     private enum Metrics {
+        static let countCell = 19
         static let itemsInRow = 4
         static let lineSpace: CGFloat = 16
         static let itemSpace: CGFloat = 16
@@ -18,6 +19,7 @@ class CalculatorScreenViewController: UIViewController {
     private var ui: CalculatorScreenView
 
     var didSelectButtonHandler: ((TypeButtons) -> Void)?
+    var didSelectDeleteButtonHandler: (() -> Void)?
     
     init(presenter: CalculatorScreenPresenter) {
         self.ui = CalculatorScreenView(frame: .zero)
@@ -26,6 +28,8 @@ class CalculatorScreenViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.ui.setupCollectionView(delegate: self, dataOutput: self)
+        
+        self.setHandlers()
     }
 
     required init?(coder: NSCoder) {
@@ -44,7 +48,7 @@ class CalculatorScreenViewController: UIViewController {
 
 extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        19
+        Metrics.countCell
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -84,5 +88,16 @@ extension CalculatorScreenViewController {
         collectionView.deselectItem(at: indexPath, animated: true)
         
         self.didSelectButtonHandler?(TypeButtons.allCases[indexPath.row])
+    }
+}
+
+private extension CalculatorScreenViewController {
+    func setHandlers() {
+        self.ui.didSelectDeleteButtonHandler = { [weak self] in
+            guard let self = self else { return }
+            
+            self.didSelectDeleteButtonHandler?()
+            
+        }
     }
 }

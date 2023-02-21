@@ -31,6 +31,7 @@ class CalculatorScreenView: UIView {
     lazy var input: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
+        view.text = "Bla"
         view.textColor = UIColor(named: "Text")
         view.font = UIFont(name: view.font.fontName, size: 35)
         view.numberOfLines = 1
@@ -61,6 +62,8 @@ class CalculatorScreenView: UIView {
         
         return view
     }()
+    
+    var didSelectDeleteButtonHandler: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,32 +76,11 @@ class CalculatorScreenView: UIView {
         
         self.addSubview(self.buttons)
         
-        
         self.setup()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension CalculatorScreenView {
-    func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {
-        self.buttons.delegate = delegate
-        self.buttons.dataSource = dataOutput
-    }
-    
-    func setInputNumber(_ number: String) {
-        self.input.text = number
-    }
-    
-    func setResultNumber(_ number: String) {
-        self.input.text = number
-    }
-    
-    func clearData() {
-        self.input.text = String()
-        self.result.text = String()
     }
 }
 
@@ -109,6 +91,8 @@ private extension CalculatorScreenView {
         
         stack.addArrangedSubview(self.input)
         stack.addArrangedSubview(self.delete)
+        configureActions()
+        
         stack.setCustomSpacing(25, after: self.input)
         
         self.stackInput.addArrangedSubview(stack)
@@ -147,4 +131,36 @@ private extension CalculatorScreenView {
         }
     }
     
+    func configureActions() {
+        self.delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteBackNumber(paramSender:))))
+    }
+    
+    @objc
+    func deleteBackNumber(paramSender: UIImageView) {
+        self.didSelectDeleteButtonHandler?()
+    }
+    
+}
+
+
+extension CalculatorScreenView {
+    func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {
+        self.buttons.delegate = delegate
+        self.buttons.dataSource = dataOutput
+    }
+    
+    func setInputNumber(_ number: String) {
+        DispatchQueue.main.async {
+            self.input.text = number
+        }
+    }
+    
+    func setResultNumber(_ number: String) {
+        self.result.text = number
+    }
+    
+    func clearData() {
+        self.input.text = String()
+        self.result.text = String()
+    }
 }

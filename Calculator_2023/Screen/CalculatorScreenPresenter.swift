@@ -10,12 +10,9 @@ import Foundation
 class CalculatorScreenPresenter {
     private var ui: CalculatorScreenView
     private var viewController: CalculatorScreenViewController?
-    private var buisnessLogic: CalculatorScreenBuisnessLogic
-    
-    private var firstNumber = String()
-    private var secondNumber = String()
+    private var buisnessLogic: ICalculatorScreenBuisnessLogic
 
-    init(buisnessLogic: CalculatorScreenBuisnessLogic) {
+    init(buisnessLogic: ICalculatorScreenBuisnessLogic) {
         self.ui = CalculatorScreenView()
         self.buisnessLogic = buisnessLogic
     }
@@ -29,10 +26,19 @@ class CalculatorScreenPresenter {
 
 private extension CalculatorScreenPresenter {
     func setHandlers() {
+        self.viewController?.didSelectDeleteButtonHandler = { [weak self] in
+            self?.buisnessLogic.deleteBackOneNumber()
+            if let number = self?.buisnessLogic.getNumber() {
+                print(number)
+                self?.ui.setInputNumber(number)
+            }
+        }
+        
         self.viewController?.didSelectButtonHandler = { [weak self] typeButton in
             switch typeButton {
             case .ac:
                 self?.ui.clearData()
+                self?.buisnessLogic.clearData()
             case .addition:
                 print("addition")
             case .subtraction:
@@ -44,7 +50,12 @@ private extension CalculatorScreenPresenter {
             case .positiveNegative:
                 print("ha")
             default:
-                print("Number")
+                self?.buisnessLogic.setNumber(typeButton.rawValue)
+                if let number = self?.buisnessLogic.getNumber() {
+                    print(number)
+                    self?.ui.setInputNumber(number)
+                }
+                print("number")
             }
         }
     }
