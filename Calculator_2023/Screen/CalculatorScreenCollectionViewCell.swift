@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ButtonCollectionViewCell: UICollectionViewCell {
+class CalculatorScreenCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "ButtonCollectionViewCell"
     
     lazy var titleCell: UILabel = {
@@ -46,7 +46,7 @@ class ButtonCollectionViewCell: UICollectionViewCell {
     }
 }
 
-private extension ButtonCollectionViewCell {
+private extension CalculatorScreenCollectionViewCell {
     func setup() {
         self.configureCard()
         self.configureConstraints()

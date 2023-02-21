@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Calculator_2023
 //
 //  Created by Елена on 16.02.2023.
@@ -7,19 +7,21 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorScreenViewController: UIViewController {
     private enum Metrics {
         static let itemsInRow = 4
         static let lineSpace: CGFloat = 16
         static let itemSpace: CGFloat = 16
     }
     
-    private var ui: View
+    private var presenter: CalculatorScreenPresenter
+    private var ui: CalculatorScreenView
 
     var didSelectButtonHandler: ((TypeButtons) -> Void)?
     
-    init() {
-        self.ui = View(frame: .zero)
+    init(presenter: CalculatorScreenPresenter) {
+        self.ui = CalculatorScreenView(frame: .zero)
+        self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
         
@@ -34,25 +36,19 @@ class ViewController: UIViewController {
         self.view = ui
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.logicCaluclator()
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
 
 }
 
-extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         19
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? ButtonCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalculatorScreenCollectionViewCell.reuseIdentifier, for: indexPath) as? CalculatorScreenCollectionViewCell else {
             return UICollectionViewCell()
         }
 
@@ -83,34 +79,10 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource, U
     }
 }
 
-extension ViewController {
+extension CalculatorScreenViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
         self.didSelectButtonHandler?(TypeButtons.allCases[indexPath.row])
-    }
-}
-
-private extension ViewController {
-    func logicCaluclator() {
-        self.didSelectButtonHandler = { [weak self] typeButton in
-            switch typeButton {
-            case .ac:
-                self?.ui.clearData()
-            case .addition:
-                print("addition")
-            case .subtraction:
-                print("subtraction")
-            case .multiplication:
-                print("multiplication")
-            case .division:
-                print("division")
-            case .positiveNegative:
-                self?.ui.changePositiveNegative()
-            default:
-                self?.ui.setNumber(typeButton.rawValue)
-                print("Number")
-            }
-        }
     }
 }

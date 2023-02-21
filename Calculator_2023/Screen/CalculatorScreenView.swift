@@ -8,12 +8,7 @@
 import UIKit
 import SnapKit
 
-class View: UIView {
-    private var firstNumber = String()
-    private var secondNumber = String()
-
-    var inputNextNumber = false
-    
+class CalculatorScreenView: UIView {
     lazy var titleApp: UILabel =  {
         let view = UILabel()
         view.text = "Calculator"
@@ -62,7 +57,7 @@ class View: UIView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor(named: "BackgroundApp")
         
-        view.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier)
+        view.register(CalculatorScreenCollectionViewCell.self, forCellWithReuseIdentifier: CalculatorScreenCollectionViewCell.reuseIdentifier)
         
         return view
     }()
@@ -87,59 +82,27 @@ class View: UIView {
     }
 }
 
-extension View {
+extension CalculatorScreenView {
     func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {
         self.buttons.delegate = delegate
         self.buttons.dataSource = dataOutput
     }
     
-    func setNumber(_ number: String) {
-        if !self.inputNextNumber {
-            self.firstNumber += number
-            self.input.text = self.firstNumber
-            
-        } else {
-            self.secondNumber += number
-            self.input.text = self.secondNumber
-        }
+    func setInputNumber(_ number: String) {
+        self.input.text = number
+    }
+    
+    func setResultNumber(_ number: String) {
+        self.input.text = number
     }
     
     func clearData() {
-        self.firstNumber = String()
-        self.secondNumber = String()
         self.input.text = String()
         self.result.text = String()
     }
-    
-    func changePositiveNegative() {
-        if !self.inputNextNumber {
-            self.firstNumber = "-" + firstNumber
-            self.input.text = self.firstNumber
-            
-        } else {
-            self.secondNumber = "-" + secondNumber
-            self.input.text = self.secondNumber
-        }
-    }
-    
-    func addition() {
-        
-    }
-    
-    func subtraction() {
-        
-    }
-    
-    func multiplication() {
-        
-    }
-    
-    func division() {
-        
-    }
 }
 
-private extension View {
+private extension CalculatorScreenView {
     func addViewInStack() {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
