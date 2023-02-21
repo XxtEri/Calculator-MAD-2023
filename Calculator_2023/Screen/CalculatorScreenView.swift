@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class CalculatorScreenView: UIView {
-    lazy var titleApp: UILabel =  {
+    private lazy var titleApp: UILabel =  {
         let view = UILabel()
         view.text = "Calculator"
         view.textColor = UIColor(named: "TitleApp")
@@ -19,7 +19,7 @@ class CalculatorScreenView: UIView {
         return view
     }()
     
-    lazy var result: UILabel = {
+    private lazy var result: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
         view.textColor = UIColor(named: "Answer")
@@ -28,7 +28,7 @@ class CalculatorScreenView: UIView {
         return view
     }()
     
-    lazy var input: UILabel = {
+    private lazy var input: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
         view.text = "Bla"
@@ -39,7 +39,7 @@ class CalculatorScreenView: UIView {
         return view
     }()
     
-    lazy var delete: UIImageView = {
+    private lazy var delete: UIImageView = {
         let view = UIImageView(image: UIImage(named: "DeleteButton"))
         view.contentMode = .scaleAspectFit
         view.tintColor = UIColor(named: "DeleteButton")
@@ -47,14 +47,14 @@ class CalculatorScreenView: UIView {
         return view
     }()
     
-    lazy var stackInput: UIStackView = {
+    private lazy var stackInput: UIStackView = {
         let view = UIStackView(frame: .zero)
         view.axis = .vertical
         
         return view
     }()
     
-    lazy var buttons: UICollectionView = {
+    private lazy var buttons: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor(named: "BackgroundApp")
         
