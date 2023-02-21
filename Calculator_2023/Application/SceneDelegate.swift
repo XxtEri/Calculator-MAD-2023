@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let navigationController = CalculatorScreenAssembly.build()
+        let viewModel = CalculatorScreenViewModel()
+        let navigationController = CalculatorScreenViewController(viewModel: viewModel)
         
         window.rootViewController = navigationController
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalculatorScreenViewController: UIViewController {
+final class CalculatorScreenViewController: UIViewController {
     private enum Metrics {
         static let countCell = 19
         static let itemsInRow = 4
@@ -15,15 +15,12 @@ class CalculatorScreenViewController: UIViewController {
         static let itemSpace: CGFloat = 16
     }
     
-    private var presenter: CalculatorScreenPresenter
-    private var ui: CalculatorScreenView
-
-    var didSelectButtonHandler: ((TypeButtons) -> Void)?
-    var didSelectDeleteButtonHandler: (() -> Void)?
+    private var viewModel: CalculatorScreenViewModel
+    var ui: CalculatorScreenView
     
-    init(presenter: CalculatorScreenPresenter) {
+    init(viewModel: CalculatorScreenViewModel) {
         self.ui = CalculatorScreenView(frame: .zero)
-        self.presenter = presenter
+        self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
         
@@ -87,7 +84,7 @@ extension CalculatorScreenViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        self.didSelectButtonHandler?(TypeButtons.allCases[indexPath.row])
+        self.viewModel.didSelectRow(at: indexPath)
     }
 }
 
@@ -96,8 +93,15 @@ private extension CalculatorScreenViewController {
         self.ui.didSelectDeleteButtonHandler = { [weak self] in
             guard let self = self else { return }
             
-            self.didSelectDeleteButtonHandler?()
-            
+            self.viewModel.didSelectDeleteButtonHandler?()
+        }
+        
+        self.viewModel.changedInputNumber = { [weak self] number in
+            self?.ui.setInputNumber(number)
+        }
+        
+        self.viewModel.clearedData = { [weak self] in
+            self?.ui.clearData()
         }
     }
 }

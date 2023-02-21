@@ -25,13 +25,16 @@ class CalculatorScreenView: UIView {
         view.textColor = UIColor(named: "Answer")
         view.font = UIFont(name: view.font.fontName, size: 57)
         
+        var frame: CGRect = view.frame
+        frame.size.height = 200
+        view.frame = frame
+        
         return view
     }()
     
     private lazy var input: UILabel = {
         let view = UILabel()
         view.textAlignment = .right
-        view.text = "Bla"
         view.textColor = UIColor(named: "Text")
         view.font = UIFont(name: view.font.fontName, size: 35)
         view.numberOfLines = 1
@@ -43,6 +46,7 @@ class CalculatorScreenView: UIView {
         let view = UIImageView(image: UIImage(named: "DeleteButton"))
         view.contentMode = .scaleAspectFit
         view.tintColor = UIColor(named: "DeleteButton")
+        view.isUserInteractionEnabled = true
         
         return view
     }()
@@ -89,11 +93,11 @@ private extension CalculatorScreenView {
         let stack = UIStackView(frame: .zero)
         stack.axis = .horizontal
         
-        stack.addArrangedSubview(self.input)
-        stack.addArrangedSubview(self.delete)
+        stack.addArrangedSubview(input)
+        stack.addArrangedSubview(delete)
         configureActions()
         
-        stack.setCustomSpacing(25, after: self.input)
+        stack.setCustomSpacing(25, after: input)
         
         self.stackInput.addArrangedSubview(stack)
     }
@@ -132,16 +136,15 @@ private extension CalculatorScreenView {
     }
     
     func configureActions() {
-        self.delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteBackNumber(paramSender:))))
+        self.delete.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteBackNumber)))
     }
     
     @objc
-    func deleteBackNumber(paramSender: UIImageView) {
+    func deleteBackNumber() {
         self.didSelectDeleteButtonHandler?()
     }
     
 }
-
 
 extension CalculatorScreenView {
     func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {
@@ -150,9 +153,7 @@ extension CalculatorScreenView {
     }
     
     func setInputNumber(_ number: String) {
-        DispatchQueue.main.async {
-            self.input.text = number
-        }
+        input.text = number
     }
     
     func setResultNumber(_ number: String) {
