@@ -140,8 +140,7 @@ private extension CalculatorScreenViewModel {
     
     func changeSignOfNumber() {
         let curNumber = getNumber()
-        
-        if curNumber[curNumber.startIndex] == "-" {
+        if !curNumber.isEmpty && curNumber[curNumber.startIndex] == "-" {
             var newNumber = curNumber
             newNumber.remove(at: curNumber.startIndex)
             
