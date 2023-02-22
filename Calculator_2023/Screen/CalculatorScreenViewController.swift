@@ -93,11 +93,16 @@ private extension CalculatorScreenViewController {
         self.ui.didSelectDeleteButtonHandler = { [weak self] in
             guard let self = self else { return }
             
-            self.viewModel.didSelectDeleteButtonHandler?()
+            self.viewModel.didSelectDeleteButton()
         }
         
         self.viewModel.changedInputNumber = { [weak self] number in
             self?.ui.setInputNumber(number)
+        }
+        
+        self.viewModel.changedResultNumber = { [weak self] number in
+            self?.ui.setResultNumber(number)
+            self?.ui.setInputNumber("")
         }
         
         self.viewModel.clearedData = { [weak self] in
