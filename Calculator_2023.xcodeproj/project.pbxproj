@@ -9,21 +9,38 @@
 /* Begin PBXBuildFile section */
 		F36AE2F3299E4F5400D7AD54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AE2F2299E4F5400D7AD54 /* AppDelegate.swift */; };
 		F36AE2F5299E4F5400D7AD54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AE2F4299E4F5400D7AD54 /* SceneDelegate.swift */; };
-		F36AE2F7299E4F5400D7AD54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AE2F6299E4F5400D7AD54 /* ViewController.swift */; };
-		F36AE2FA299E4F5400D7AD54 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F36AE2F8299E4F5400D7AD54 /* Main.storyboard */; };
+		F36AE2F7299E4F5400D7AD54 /* CalculatorScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AE2F6299E4F5400D7AD54 /* CalculatorScreenViewController.swift */; };
 		F36AE2FC299E4F5500D7AD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F36AE2FB299E4F5500D7AD54 /* Assets.xcassets */; };
 		F36AE2FF299E4F5500D7AD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F36AE2FD299E4F5500D7AD54 /* LaunchScreen.storyboard */; };
+		F376A05B29A6F5C7009C65B2 /* GoogleSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F376A05A29A6F5C7009C65B2 /* GoogleSans-Regular.ttf */; };
+		F376A05D29A6F5E5009C65B2 /* GoogleSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F376A05C29A6F5E5009C65B2 /* GoogleSans-Medium.ttf */; };
+		F376A05F29A6F5EF009C65B2 /* GoogleSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F376A05E29A6F5EF009C65B2 /* GoogleSans-Bold.ttf */; };
+		F37D509029A4EBAB0067C76F /* CalculatorScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D508F29A4EBAB0067C76F /* CalculatorScreenModel.swift */; };
+		F37D509229A4EBB70067C76F /* CalculatorScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D509129A4EBB70067C76F /* CalculatorScreenViewModel.swift */; };
+		F384436929A1D4390081DEC0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F384436829A1D4390081DEC0 /* SnapKit */; };
+		F384436B29A1D7E30081DEC0 /* CalculatorScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384436A29A1D7E30081DEC0 /* CalculatorScreenView.swift */; };
+		F384437029A1DBAF0081DEC0 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384436F29A1DBAF0081DEC0 /* Fonts.swift */; };
+		F384437529A1DEDE0081DEC0 /* CalculatorScreenCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384437429A1DEDE0081DEC0 /* CalculatorScreenCollectionViewCell.swift */; };
+		F384437729A23E620081DEC0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F384437629A23E620081DEC0 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F36AE2EF299E4F5400D7AD54 /* Calculator_2023.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator_2023.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36AE2F2299E4F5400D7AD54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F36AE2F4299E4F5400D7AD54 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F36AE2F6299E4F5400D7AD54 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F36AE2F9299E4F5400D7AD54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F36AE2F6299E4F5400D7AD54 /* CalculatorScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreenViewController.swift; sourceTree = "<group>"; };
 		F36AE2FB299E4F5500D7AD54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F36AE2FE299E4F5500D7AD54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F36AE300299E4F5500D7AD54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F376A05A29A6F5C7009C65B2 /* GoogleSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GoogleSans-Regular.ttf"; path = "../../../../../../../Downloads/font/GoogleSans-Regular.ttf"; sourceTree = "<group>"; };
+		F376A05C29A6F5E5009C65B2 /* GoogleSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GoogleSans-Medium.ttf"; path = "../../../../../../../Downloads/font/GoogleSans-Medium.ttf"; sourceTree = "<group>"; };
+		F376A05E29A6F5EF009C65B2 /* GoogleSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GoogleSans-Bold.ttf"; path = "../../../../../../../Downloads/font/GoogleSans-Bold.ttf"; sourceTree = "<group>"; };
+		F37D508F29A4EBAB0067C76F /* CalculatorScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreenModel.swift; sourceTree = "<group>"; };
+		F37D509129A4EBB70067C76F /* CalculatorScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreenViewModel.swift; sourceTree = "<group>"; };
+		F384436A29A1D7E30081DEC0 /* CalculatorScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreenView.swift; sourceTree = "<group>"; };
+		F384436F29A1DBAF0081DEC0 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		F384437429A1DEDE0081DEC0 /* CalculatorScreenCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorScreenCollectionViewCell.swift; sourceTree = "<group>"; };
+		F384437629A23E620081DEC0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F384436929A1D4390081DEC0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,15 +74,55 @@
 		F36AE2F1299E4F5400D7AD54 /* Calculator_2023 */ = {
 			isa = PBXGroup;
 			children = (
-				F36AE2F2299E4F5400D7AD54 /* AppDelegate.swift */,
-				F36AE2F4299E4F5400D7AD54 /* SceneDelegate.swift */,
-				F36AE2F6299E4F5400D7AD54 /* ViewController.swift */,
-				F36AE2F8299E4F5400D7AD54 /* Main.storyboard */,
+				F384436C29A1DB530081DEC0 /* Application */,
+				F384436E29A1DB8F0081DEC0 /* Screen */,
+				F384436D29A1DB610081DEC0 /* Resources */,
 				F36AE2FB299E4F5500D7AD54 /* Assets.xcassets */,
 				F36AE2FD299E4F5500D7AD54 /* LaunchScreen.storyboard */,
 				F36AE300299E4F5500D7AD54 /* Info.plist */,
 			);
 			path = Calculator_2023;
+			sourceTree = "<group>";
+		};
+		F384436C29A1DB530081DEC0 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				F36AE2F2299E4F5400D7AD54 /* AppDelegate.swift */,
+				F36AE2F4299E4F5400D7AD54 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		F384436D29A1DB610081DEC0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F384437129A1DBD60081DEC0 /* Fonts */,
+				F384437629A23E620081DEC0 /* Constants.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F384436E29A1DB8F0081DEC0 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				F37D509129A4EBB70067C76F /* CalculatorScreenViewModel.swift */,
+				F37D508F29A4EBAB0067C76F /* CalculatorScreenModel.swift */,
+				F384436A29A1D7E30081DEC0 /* CalculatorScreenView.swift */,
+				F36AE2F6299E4F5400D7AD54 /* CalculatorScreenViewController.swift */,
+				F384437429A1DEDE0081DEC0 /* CalculatorScreenCollectionViewCell.swift */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		F384437129A1DBD60081DEC0 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F376A05A29A6F5C7009C65B2 /* GoogleSans-Regular.ttf */,
+				F376A05C29A6F5E5009C65B2 /* GoogleSans-Medium.ttf */,
+				F376A05E29A6F5EF009C65B2 /* GoogleSans-Bold.ttf */,
+				F384436F29A1DBAF0081DEC0 /* Fonts.swift */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +141,9 @@
 			dependencies = (
 			);
 			name = Calculator_2023;
+			packageProductDependencies = (
+				F384436829A1D4390081DEC0 /* SnapKit */,
+			);
 			productName = Calculator_2023;
 			productReference = F36AE2EF299E4F5400D7AD54 /* Calculator_2023.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +172,9 @@
 				Base,
 			);
 			mainGroup = F36AE2E6299E4F5400D7AD54;
+			packageReferences = (
+				F384436729A1D4390081DEC0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = F36AE2F0299E4F5400D7AD54 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -126,8 +190,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F36AE2FF299E4F5500D7AD54 /* LaunchScreen.storyboard in Resources */,
+				F376A05F29A6F5EF009C65B2 /* GoogleSans-Bold.ttf in Resources */,
+				F376A05D29A6F5E5009C65B2 /* GoogleSans-Medium.ttf in Resources */,
 				F36AE2FC299E4F5500D7AD54 /* Assets.xcassets in Resources */,
-				F36AE2FA299E4F5400D7AD54 /* Main.storyboard in Resources */,
+				F376A05B29A6F5C7009C65B2 /* GoogleSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +204,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F36AE2F7299E4F5400D7AD54 /* ViewController.swift in Sources */,
+				F384436B29A1D7E30081DEC0 /* CalculatorScreenView.swift in Sources */,
+				F384437029A1DBAF0081DEC0 /* Fonts.swift in Sources */,
+				F37D509229A4EBB70067C76F /* CalculatorScreenViewModel.swift in Sources */,
+				F36AE2F7299E4F5400D7AD54 /* CalculatorScreenViewController.swift in Sources */,
+				F37D509029A4EBAB0067C76F /* CalculatorScreenModel.swift in Sources */,
 				F36AE2F3299E4F5400D7AD54 /* AppDelegate.swift in Sources */,
+				F384437729A23E620081DEC0 /* Constants.swift in Sources */,
+				F384437529A1DEDE0081DEC0 /* CalculatorScreenCollectionViewCell.swift in Sources */,
 				F36AE2F5299E4F5400D7AD54 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +219,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F36AE2F8299E4F5400D7AD54 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F36AE2F9299E4F5400D7AD54 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F36AE2FD299E4F5500D7AD54 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +356,6 @@
 				INFOPLIST_FILE = Calculator_2023/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +383,6 @@
 				INFOPLIST_FILE = Calculator_2023/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -358,6 +420,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F384436729A1D4390081DEC0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F384436829A1D4390081DEC0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F384436729A1D4390081DEC0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F36AE2E7299E4F5400D7AD54 /* Project object */;
 }
