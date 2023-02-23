@@ -8,6 +8,13 @@
 import UIKit
 
 class CalculatorScreenCollectionViewCell: UICollectionViewCell {
+    
+    private enum Metrics {
+        static let cornerRadiusCell: CGFloat = 24
+        static let titleCellInsetHorizontal: CGFloat = 11.88
+        static let titleCellInsetVertical: CGFloat = 14.88
+    }
+    
     static let reuseIdentifier = "ButtonCollectionViewCell"
     
     lazy var titleCell: UILabel = {
@@ -53,14 +60,14 @@ private extension CalculatorScreenCollectionViewCell {
     }
     
     func configureCard() {
-        self.layer.cornerRadius = 24
+        self.layer.cornerRadius = Metrics.cornerRadiusCell
         self.clipsToBounds = true
     }
     
     func configureConstraints() {
         titleCell.snp.makeConstraints({ make in
-            make.horizontalEdges.equalToSuperview().inset(11.88)
-            make.verticalEdges.equalToSuperview().inset(14.88)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.titleCellInsetHorizontal)
+            make.verticalEdges.equalToSuperview().inset(Metrics.titleCellInsetVertical)
         })
     }
 }

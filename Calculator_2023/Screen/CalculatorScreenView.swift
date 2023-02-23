@@ -9,12 +9,36 @@ import UIKit
 import SnapKit
 
 class CalculatorScreenView: UIView {
+    
+    private enum Metrics {
+        static let titleAppSizeFont: CGFloat = 28
+        static let resultSizeFont: CGFloat = 57
+        static let inputSizeFont: CGFloat = 35
+        
+        static let maxNumberOfLines = 1
+        static let spacingStackInput: CGFloat = 25
+        static let horizontalInsetScreen: CGFloat = 24
+        
+        static let titleAppInsetTop: CGFloat = 36
+        static let titleAppInsetBottom: CGFloat = -32.25
+        
+        static let resultHeight: CGFloat = 75
+        static let resultInsetBottom: CGFloat = -30
+        
+        static let stackInputHeight: CGFloat = 48
+        
+        static let lineHeight: CGFloat = 1
+        
+        static let buttonsInsetTop: CGFloat = -16
+        static let buttonsInsetBottom: CGFloat = 45
+    }
+    
     private lazy var titleApp: UILabel =  {
         let view = UILabel()
         view.text = "Calculator"
         view.textColor = UIColor(named: "TitleApp")
         view.textAlignment = .left
-        view.font = UIFont(name: TitleFonts.googlesansBold, size: 28)
+        view.font = UIFont(name: TitleFonts.googlesansBold, size: Metrics.titleAppSizeFont)
 
         return view
     }()
@@ -23,7 +47,8 @@ class CalculatorScreenView: UIView {
         let view = UILabel()
         view.textAlignment = .left
         view.textColor = UIColor(named: "Answer")
-        view.font = UIFont(name: TitleFonts.googlesansMedium, size: 57)
+        view.font = UIFont(name: TitleFonts.googlesansMedium, size: Metrics.resultSizeFont)
+        view.numberOfLines = Metrics.maxNumberOfLines
         
         return view
     }()
@@ -32,8 +57,8 @@ class CalculatorScreenView: UIView {
         let view = UILabel()
         view.textAlignment = .right
         view.textColor = UIColor(named: "Text")
-        view.font = UIFont(name: TitleFonts.googlesansRegular, size: 35)
-        view.numberOfLines = 1
+        view.font = UIFont(name: TitleFonts.googlesansRegular, size: Metrics.inputSizeFont)
+        view.numberOfLines = Metrics.maxNumberOfLines
         
         return view
     }()
@@ -80,7 +105,7 @@ class CalculatorScreenView: UIView {
 
         stackInput.addArrangedSubview(input)
         stackInput.addArrangedSubview(delete)
-        stackInput.setCustomSpacing(25, after: input)
+        stackInput.setCustomSpacing(Metrics.spacingStackInput, after: input)
         
         self.addSubview(stackInput)
         self.addSubview(line)
@@ -107,33 +132,32 @@ private extension CalculatorScreenView {
     
     func configureConstraints() {
         self.titleApp.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(36)
-            make.bottom.equalTo(result.snp.top).inset(-32.25)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(Metrics.titleAppInsetTop)
+            make.bottom.equalTo(result.snp.top).inset(Metrics.titleAppInsetBottom)
         }
         
         self.result.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(75)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalTo(self.stackInput.snp.top).inset(-30)
+            make.height.greaterThanOrEqualTo(Metrics.resultHeight)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
+            make.bottom.equalTo(self.stackInput.snp.top).inset(Metrics.resultInsetBottom)
         }
         
         self.stackInput.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(48)
-            make.leading.equalToSuperview().inset(24)
-            make.trailing.equalToSuperview().inset(24)
+            make.height.greaterThanOrEqualTo(Metrics.stackInputHeight)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
         }
         
         self.line.snp.makeConstraints { make in
-            make.height.equalTo(1)
-            make.horizontalEdges.equalToSuperview().inset(24)
-            make.top.equalTo(stackInput.snp.bottom).inset(0)
+            make.height.equalTo(Metrics.lineHeight)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
+            make.top.equalTo(stackInput.snp.bottom)
         }
         
         self.buttons.snp.makeConstraints { make in
-            make.top.equalTo(line.snp.bottom).inset(-16)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(45)
-            make.horizontalEdges.equalToSuperview().inset(24)
+            make.top.equalTo(line.snp.bottom).inset(Metrics.buttonsInsetTop)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(Metrics.buttonsInsetBottom)
+            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
         }
     }
     
