@@ -77,16 +77,9 @@ private extension CalculatorScreenViewModel {
         return model.secondNumber
     }
     
-    func deleteBackOneNumber() {
-        if !inputNextNumber {
-            model.firstNumber.remove(at: model.firstNumber.index(before: model.firstNumber.endIndex))
-            
-        } else {
-            model.secondNumber.remove(at: model.firstNumber.index(before: model.firstNumber.endIndex))
-        }
-    }
-    
     func selectActionNumber(typeButton: TypeButtons) {
+        guard !model.firstNumber.isEmpty else { return }
+        
         inputNextNumber = true
         actionMath = typeButton
         changedInputNumber?(getNumber())
