@@ -135,9 +135,11 @@ private extension CalculatorScreenViewModel {
         default:
             print("error")
         }
-        
-        result = result.replacingOccurrences(of: "/.0{1}", with: "", options: .regularExpression)
-        result.replace(".", with: ",")
+        if result.range(of: ".*([.][0]{1})", options: .regularExpression, range: nil, locale: nil) != nil {
+            result = result.replacingOccurrences(of: "[.][0]{1}", with: "", options: .regularExpression)
+        } else {
+            result.replace(".", with: ",")
+        }
         
         model.result = result
         
