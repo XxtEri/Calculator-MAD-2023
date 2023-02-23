@@ -150,8 +150,8 @@ private extension CalculatorScreenView {
 
 extension CalculatorScreenView {
     func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {
-        self.buttons.delegate = delegate
-        self.buttons.dataSource = dataOutput
+        buttons.delegate = delegate
+        buttons.dataSource = dataOutput
     }
     
     func setInputNumber(_ number: String) {
@@ -159,11 +159,15 @@ extension CalculatorScreenView {
     }
     
     func setResultNumber(_ number: String) {
-        self.result.text = number
+        result.text = number
+        
+        if number == "Error" {
+            result.textColor = UIColor(named: "Error")
+        }
     }
     
     func clearData() {
-        self.input.text = String()
-        self.result.text = String()
+        input.text = String()
+        result.text = String()
     }
 }

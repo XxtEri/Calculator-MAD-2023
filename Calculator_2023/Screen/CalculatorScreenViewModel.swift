@@ -123,7 +123,11 @@ private extension CalculatorScreenViewModel {
         case .multiplication:
             result = String(num1 * num2)
         case .division:
-            result = String(num1 / num2)
+            if num2 == 0 {
+                result = "Error"
+            } else {
+                result = String(num1 / num2)
+            }
         case .percent:
             result = String(num1 / 100 * num2)
         default:
@@ -132,6 +136,7 @@ private extension CalculatorScreenViewModel {
         
         result = result.replacingOccurrences(of: ".0{1}", with: "", options: .regularExpression)
         result.replace(".", with: ",")
+        
         model.result = result
         
         changedResultNumber?(model.result)
