@@ -25,10 +25,6 @@ class CalculatorScreenView: UIView {
         view.textColor = UIColor(named: "Answer")
         view.font = UIFont(name: view.font.fontName, size: 57)
         
-        var frame: CGRect = view.frame
-        frame.size.height = 200
-        view.frame = frame
-        
         return view
     }()
     
@@ -53,7 +49,14 @@ class CalculatorScreenView: UIView {
     
     private lazy var stackInput: UIStackView = {
         let view = UIStackView(frame: .zero)
-        view.axis = .vertical
+        view.axis = .horizontal
+        
+        return view
+    }()
+    
+    private lazy var line: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = UIColor(named: "LineUnderInput")
         
         return view
     }()
@@ -72,15 +75,18 @@ class CalculatorScreenView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(self.titleApp)
-        self.addSubview(self.result)
+        self.addSubview(titleApp)
+        self.addSubview(result)
 
-        self.addViewInStack()
-        self.addSubview(self.stackInput)
+        stackInput.addArrangedSubview(input)
+        stackInput.addArrangedSubview(delete)
+        stackInput.setCustomSpacing(25, after: input)
         
-        self.addSubview(self.buttons)
+        self.addSubview(stackInput)
+        self.addSubview(line)
+        self.addSubview(buttons)
         
-        self.setup()
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -89,22 +95,10 @@ class CalculatorScreenView: UIView {
 }
 
 private extension CalculatorScreenView {
-    func addViewInStack() {
-        let stack = UIStackView(frame: .zero)
-        stack.axis = .horizontal
-        
-        stack.addArrangedSubview(input)
-        stack.addArrangedSubview(delete)
-        configureActions()
-        
-        stack.setCustomSpacing(25, after: input)
-        
-        self.stackInput.addArrangedSubview(stack)
-    }
-    
     func setup() {
         configure()
         configureConstraints()
+        configureActions()
     }
     
     func configure() {
@@ -112,24 +106,32 @@ private extension CalculatorScreenView {
     }
     
     func configureConstraints() {
-        self.titleApp.snp.makeConstraints({ make in
+        self.titleApp.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(24)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(36)
-            make.bottom.equalTo(self.result.snp.top).inset(-32.25)
-        })
+            make.bottom.equalTo(result.snp.top).inset(-32.25)
+        }
         
         self.result.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(70)
             make.horizontalEdges.equalToSuperview().inset(24)
             make.bottom.equalTo(self.stackInput.snp.top).inset(-39)
         }
         
         self.stackInput.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().inset(35)
+            make.height.greaterThanOrEqualTo(48)
+            make.leading.equalToSuperview().inset(24)
+            make.trailing.equalToSuperview().inset(24)
+        }
+        
+        self.line.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.horizontalEdges.equalToSuperview().inset(24)
+            make.top.equalTo(stackInput.snp.bottom).inset(0)
         }
         
         self.buttons.snp.makeConstraints { make in
-            make.top.equalTo(self.stackInput.snp.bottom).inset(-16)
+            make.top.equalTo(line.snp.bottom).inset(-16)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(45)
             make.horizontalEdges.equalToSuperview().inset(24)
         }
