@@ -8,5 +8,6 @@
 final class CalculatorScreenModel {
     var firstNumber = String()
     var secondNumber = String()
+    var actionMath = String()
     var result = String()
 }

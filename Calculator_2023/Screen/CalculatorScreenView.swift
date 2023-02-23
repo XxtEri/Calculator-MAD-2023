@@ -178,14 +178,14 @@ extension CalculatorScreenView {
         buttons.dataSource = dataOutput
     }
     
-    func setInputNumber(_ number: String) {
-        input.text = number
+    func setInputExpression(_ expression: String) {
+        input.text = expression
     }
     
-    func setResultNumber(_ number: String) {
-        result.text = number
+    func setResultNumberExpression(_ expression: String) {
+        result.text = expression
         
-        if number == "Error" {
+        if expression == "Error" {
             result.textColor = UIColor(named: "Error")
         }
     }

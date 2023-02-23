@@ -96,13 +96,13 @@ private extension CalculatorScreenViewController {
             self.viewModel.didSelectDeleteButton()
         }
         
-        self.viewModel.changedInputNumber = { [weak self] number in
-            self?.ui.setInputNumber(number)
+        self.viewModel.changedInput = { [weak self] firstNumber, actionMath, secondNumber in
+            self?.ui.setInputExpression(firstNumber + actionMath + secondNumber)
         }
         
         self.viewModel.changedResultNumber = { [weak self] number in
-            self?.ui.setResultNumber(number)
-            self?.ui.setInputNumber("")
+            self?.ui.setResultNumberExpression(number)
+            self?.ui.setInputExpression("")
         }
         
         self.viewModel.clearedData = { [weak self] in

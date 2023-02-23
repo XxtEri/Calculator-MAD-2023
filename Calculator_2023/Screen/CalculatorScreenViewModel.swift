@@ -10,10 +10,8 @@ import Foundation
 final class CalculatorScreenViewModel {
     private var inputNextNumber = false
     private var model: CalculatorScreenModel
-    
-    private var actionMath: TypeButtons?
-    
-    var changedInputNumber: ((String) -> Void)?
+
+    var changedInput: ((String, String, String) -> Void)?
     var changedResultNumber: ((String) -> Void)?
     var clearedData: (() -> Void)?
     
@@ -32,6 +30,7 @@ final class CalculatorScreenViewModel {
             selectActionNumber(typeButton: typeButton)
         case .equal:
             convertNumbers()
+            clearData()
         case .positiveNegative:
             changeSignOfNumber()
         default:
@@ -57,38 +56,56 @@ final class CalculatorScreenViewModel {
     }
 }
 
+//исправить с проставлением минуса во втором числе при динамическом просчитывании чисел
+//запятые
+
 private extension CalculatorScreenViewModel {
     func setNumber(_ number: String) {
         if !inputNextNumber {
             model.firstNumber = number
             
+            
         } else {
+            guard !model.actionMath.isEmpty else { return }
+            
             model.secondNumber = number
         }
         
-        changedInputNumber?(self.getNumber())
+        changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
     }
     
     func getNumber() -> String {
-        if !inputNextNumber {
-            return model.firstNumber
+        if inputNextNumber {
+            return model.secondNumber
         }
         
-        return model.secondNumber
+        return model.firstNumber
     }
     
     func selectActionNumber(typeButton: TypeButtons) {
         guard !model.firstNumber.isEmpty else { return }
         
-        inputNextNumber = true
-        actionMath = typeButton
-        changedInputNumber?(getNumber())
+        model.actionMath = typeButton.rawValue
+        
+        if !inputNextNumber {
+            changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
+            inputNextNumber = true
+            
+        } else {
+            convertNumbers()
+            
+            let result = model.result
+            clearData()
+            
+            setNumber(result)
+            selectActionNumber(typeButton: typeButton)
+        }
     }
     
     func convertNumbers() {
         guard !model.firstNumber.isEmpty
                 && !model.secondNumber.isEmpty
-                && actionMath != nil else { return }
+                && !model.actionMath.isEmpty else { return }
         
         model.firstNumber.replace(",", with: ".")
         model.secondNumber.replace(",", with: ".")
@@ -110,20 +127,20 @@ private extension CalculatorScreenViewModel {
     func performActionMath(_ num1: Float, _ num2: Float) {
         var result = ""
         
-        switch actionMath {
-        case .addition:
+        switch model.actionMath {
+        case TypeButtons.addition.rawValue:
             result = String(num1 + num2)
-        case .subtraction:
+        case TypeButtons.subtraction.rawValue:
             result = String(num1 - num2)
-        case .multiplication:
+        case TypeButtons.multiplication.rawValue:
             result = String(num1 * num2)
-        case .division:
+        case TypeButtons.division.rawValue:
             if num2 == 0 {
                 result = "Error"
             } else {
                 result = String(num1 / num2)
             }
-        case .percent:
+        case TypeButtons.percent.rawValue:
             result = String(num1 / 100 * num2)
         default:
             print("error")
@@ -137,7 +154,6 @@ private extension CalculatorScreenViewModel {
         model.result = result
         
         changedResultNumber?(model.result)
-        clearData()
     }
     
     func changeSignOfNumber() {
@@ -153,13 +169,10 @@ private extension CalculatorScreenViewModel {
         }
     }
     
-    func getResult() -> String {
-        return model.result
-    }
-    
     func clearData() {
         model.firstNumber = String()
         model.secondNumber = String()
+        model.actionMath = String()
         model.result = String()
         
         inputNextNumber = false
