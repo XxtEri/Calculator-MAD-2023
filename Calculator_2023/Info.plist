@@ -4,7 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>googlesans_medium.ttf</string>
+		<string>GoogleSans-Regular.ttf</string>
+		<string>GoogleSans-Medium.ttf</string>
+		<string>GoogleSans-Bold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

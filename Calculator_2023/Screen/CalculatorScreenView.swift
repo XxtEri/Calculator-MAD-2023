@@ -14,7 +14,7 @@ class CalculatorScreenView: UIView {
         view.text = "Calculator"
         view.textColor = UIColor(named: "TitleApp")
         view.textAlignment = .left
-        view.font = UIFont(name: view.font.fontName, size: 28)
+        view.font = UIFont(name: TitleFonts.googlesansBold, size: 28)
 
         return view
     }()
@@ -23,7 +23,7 @@ class CalculatorScreenView: UIView {
         let view = UILabel()
         view.textAlignment = .left
         view.textColor = UIColor(named: "Answer")
-        view.font = UIFont(name: view.font.fontName, size: 57)
+        view.font = UIFont(name: TitleFonts.googlesansMedium, size: 57)
         
         return view
     }()
@@ -32,7 +32,7 @@ class CalculatorScreenView: UIView {
         let view = UILabel()
         view.textAlignment = .right
         view.textColor = UIColor(named: "Text")
-        view.font = UIFont(name: view.font.fontName, size: 35)
+        view.font = UIFont(name: TitleFonts.googlesansRegular, size: 35)
         view.numberOfLines = 1
         
         return view
@@ -113,9 +113,9 @@ private extension CalculatorScreenView {
         }
         
         self.result.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(70)
+            make.height.greaterThanOrEqualTo(75)
             make.horizontalEdges.equalToSuperview().inset(24)
-            make.bottom.equalTo(self.stackInput.snp.top).inset(-39)
+            make.bottom.equalTo(self.stackInput.snp.top).inset(-30)
         }
         
         self.stackInput.snp.makeConstraints { make in

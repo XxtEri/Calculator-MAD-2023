@@ -8,5 +8,7 @@
 import Foundation
 
 enum TitleFonts {
-    static let googlesansMedium = "googlesans_medium"
+    static let googlesansRegular = "GoogleSans-Regular"
+    static let googlesansMedium = "GoogleSans-Medium"
+    static let googlesansBold = "GoogleSans-Bold"
 }
