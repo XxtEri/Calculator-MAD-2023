@@ -34,8 +34,7 @@ final class CalculatorScreenViewModel {
         case .positiveNegative:
             changeSignOfNumber()
         default:
-            let cur_number = getNumber()
-            setNumber(cur_number + typeButton.rawValue)
+            setNumber(typeButton.rawValue)
         }
     }
     
@@ -57,18 +56,24 @@ final class CalculatorScreenViewModel {
 }
 
 //исправить с проставлением минуса во втором числе при динамическом просчитывании чисел
-//запятые
+//добавить проверку на то, что число с запятой не дописано
 
 private extension CalculatorScreenViewModel {
     func setNumber(_ number: String) {
         if !inputNextNumber {
-            model.firstNumber = number
+            if model.firstNumber.contains(TypeButtons.comma.rawValue) &&
+                    number == TypeButtons.comma.rawValue { return }
             
+            let curNumber = getNumber()
+            model.firstNumber = curNumber + number
             
         } else {
             guard !model.actionMath.isEmpty else { return }
+            if model.secondNumber.contains(TypeButtons.comma.rawValue) &&
+                    number == TypeButtons.comma.rawValue { return }
             
-            model.secondNumber = number
+            let curNumber = getNumber()
+            model.secondNumber = curNumber + number
         }
         
         changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
