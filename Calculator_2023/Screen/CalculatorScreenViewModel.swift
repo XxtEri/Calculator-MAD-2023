@@ -56,7 +56,6 @@ final class CalculatorScreenViewModel {
 }
 
 //исправить с проставлением минуса во втором числе при динамическом просчитывании чисел
-//добавить проверку на то, что число с запятой не дописано
 
 private extension CalculatorScreenViewModel {
     func setNumber(_ number: String) {
@@ -93,6 +92,12 @@ private extension CalculatorScreenViewModel {
         model.actionMath = typeButton.rawValue
         
         if !inputNextNumber {
+            let endIndex = model.firstNumber.index(before: model.firstNumber.endIndex)
+            
+            if String(model.firstNumber[endIndex]) == TypeButtons.comma.rawValue {
+                model.firstNumber += "0"
+            }
+                
             changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             inputNextNumber = true
             
