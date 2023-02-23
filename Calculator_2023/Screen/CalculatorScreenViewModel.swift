@@ -50,6 +50,8 @@ final class CalculatorScreenViewModel {
             number = model.secondNumber
         }
         
+        guard !number.isEmpty else {return}
+        
         number.remove(at: number.index(before: number.endIndex))
         setNumber(number)
     }
@@ -134,7 +136,7 @@ private extension CalculatorScreenViewModel {
             print("error")
         }
         
-        result = result.replacingOccurrences(of: ".0{1}", with: "", options: .regularExpression)
+        result = result.replacingOccurrences(of: "/.0{1}", with: "", options: .regularExpression)
         result.replace(".", with: ",")
         
         model.result = result
