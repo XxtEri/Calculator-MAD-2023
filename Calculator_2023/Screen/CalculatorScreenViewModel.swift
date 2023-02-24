@@ -56,9 +56,6 @@ final class CalculatorScreenViewModel {
     }
 }
 
-
-//проблема, когда два раза вводишь мат знак
-
 private extension CalculatorScreenViewModel {
     func setNumber(_ expression: String) {
         if !inputNextNumber {
@@ -97,9 +94,14 @@ private extension CalculatorScreenViewModel {
             }
             
             model.actionMath = typeButton.rawValue
+            inputNextNumber = true
                 
             changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
-            inputNextNumber = true
+            
+        } else if model.secondNumber.isEmpty {
+            model.actionMath = typeButton.rawValue
+                
+            changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             
         } else {
             convertNumbers()
@@ -133,6 +135,10 @@ private extension CalculatorScreenViewModel {
         
         if let number = Float(model.secondNumber) {
             secondNumber = number
+            
+            if model.actionMath == TypeButtons.subtraction.rawValue {
+                secondNumber *= -1
+            }
         }
         
         performActionMath(firstNumber, secondNumber)
