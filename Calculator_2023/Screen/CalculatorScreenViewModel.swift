@@ -125,6 +125,10 @@ private extension CalculatorScreenViewModel {
         
         model.firstNumber.replace(",", with: ".")
         model.secondNumber.replace(",", with: ".")
+        
+        if model.secondNumber.contains("(-") {
+            model.secondNumber = model.secondNumber.replacingOccurrences(of: "[(]{1}", with: "", options: .regularExpression)
+        }
 
         var firstNumber: Float = 0
         var secondNumber: Float = 0
@@ -135,10 +139,6 @@ private extension CalculatorScreenViewModel {
         
         if let number = Float(model.secondNumber) {
             secondNumber = number
-            
-            if model.actionMath == TypeButtons.subtraction.rawValue {
-                secondNumber *= -1
-            }
         }
         
         performActionMath(firstNumber, secondNumber)
