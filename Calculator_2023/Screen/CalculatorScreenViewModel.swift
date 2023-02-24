@@ -31,16 +31,17 @@ final class CalculatorScreenViewModel {
 
 private extension CalculatorScreenViewModel {
     func setNumber(_ expression: String) {
+        guard expression.components(separatedBy: TypeButtons.comma.rawValue).count - 1 <= 1 else { return }
+        
+        guard expression.range(of: "^0{2,}", options: .regularExpression, range: nil, locale: nil) == nil else { return }
+        
+        guard expression.range(of: "^[,]", options: .regularExpression, range: nil, locale: nil) == nil else { return }
+        
         if !inputNextNumber {
-            if model.firstNumber.contains(TypeButtons.comma.rawValue) &&
-                    expression == TypeButtons.comma.rawValue { return }
-            
             model.firstNumber = expression
             
         } else {
             guard !model.actionMath.isEmpty else { return }
-            if model.secondNumber.contains(TypeButtons.comma.rawValue) &&
-                    expression == TypeButtons.comma.rawValue { return }
             
             model.secondNumber = expression
         }
@@ -138,10 +139,15 @@ private extension CalculatorScreenViewModel {
         default:
             print("error")
         }
-        if result.range(of: ".*([.][0]{1})", options: .regularExpression, range: nil, locale: nil) != nil {
-            result = result.replacingOccurrences(of: "[.][0]{1}", with: "", options: .regularExpression)
-        } else {
-            result.replace(".", with: ",")
+        
+        result.replace(".", with: ",")
+        
+        if result.range(of: ".+[,][0]{1}.+", options: .regularExpression, range: nil, locale: nil) == nil {
+            result = result.replacingOccurrences(of: "[,][0]{1}", with: "", options: .regularExpression)
+        }
+        
+        if result == "-0" {
+            result = "0"
         }
         
         model.result = result
