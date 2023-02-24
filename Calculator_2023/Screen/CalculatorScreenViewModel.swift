@@ -28,8 +28,6 @@ final class CalculatorScreenViewModel {
 }
 
 // MARK: - Private extension properties
-//сделать ограничение на один на в начале числа
-//неправильное вычисление с дробными числами
 
 private extension CalculatorScreenViewModel {
     func setNumber(_ expression: String) {
