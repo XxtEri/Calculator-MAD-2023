@@ -9,15 +9,15 @@ import UIKit
 
 class CalculatorScreenCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Private properties
+    
     private enum Metrics {
         static let cornerRadiusCell: CGFloat = 24
         static let titleCellInsetHorizontal: CGFloat = 11.88
         static let titleCellInsetVertical: CGFloat = 14.88
     }
     
-    static let reuseIdentifier = "ButtonCollectionViewCell"
-    
-    lazy var titleCell: UILabel = {
+    private lazy var titleCell: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: TitleFonts.googlesansMedium, size: 32)
         view.textColor = UIColor(named: "Text")
@@ -25,6 +25,12 @@ class CalculatorScreenCollectionViewCell: UICollectionViewCell {
         
         return view
     }()
+    
+    // MARK: - Public properties
+    
+    static let reuseIdentifier = "ButtonCollectionViewCell"
+    
+    // MARK: - Methods
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,6 +58,9 @@ class CalculatorScreenCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+
+
+// MARK: - Private extension properties
 
 private extension CalculatorScreenCollectionViewCell {
     func setup() {

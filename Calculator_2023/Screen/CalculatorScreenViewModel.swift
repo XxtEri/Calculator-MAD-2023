@@ -8,95 +8,100 @@
 import Foundation
 
 final class CalculatorScreenViewModel {
+    
+    // MARK: - Private properties
+    
     private var inputNextNumber = false
     private var model: CalculatorScreenModel
     
-    private var actionMath: TypeButtons?
-    
-    var changedInputNumber: ((String) -> Void)?
+    // MARK: - Public properties
+
+    var changedInput: ((String, String, String) -> Void)?
     var changedResultNumber: ((String) -> Void)?
     var clearedData: (() -> Void)?
+    
+    // MARK: - Methods
     
     init() {
         self.model = CalculatorScreenModel()
     }
-    
-    func didSelectRow(at indexPath: IndexPath) {
-        let typeButton = TypeButtons.allCases[indexPath.row]
-        
-        switch typeButton {
-        case .ac:
-            clearData()
-            clearedData?()
-        case .percent, .addition, .subtraction, .multiplication, .division:
-            selectActionNumber(typeButton: typeButton)
-        case .equal:
-            convertNumbers()
-        case .positiveNegative:
-            changeSignOfNumber()
-        default:
-            let cur_number = getNumber()
-            setNumber(cur_number + typeButton.rawValue)
-        }
-    }
-    
-    func didSelectDeleteButton() {
-        var number = ""
-        
-        if !inputNextNumber {
-            number = model.firstNumber
-            
-        } else {
-            number = model.secondNumber
-        }
-        
-        number.remove(at: number.index(before: number.endIndex))
-        setNumber(number)
-    }
 }
 
+// MARK: - Private extension properties
+
 private extension CalculatorScreenViewModel {
-    func setNumber(_ number: String) {
+    func setNumber(_ expression: String) {
         if !inputNextNumber {
-            model.firstNumber = number
+            if model.firstNumber.contains(TypeButtons.comma.rawValue) &&
+                    expression == TypeButtons.comma.rawValue { return }
+            
+            model.firstNumber = expression
             
         } else {
-            model.secondNumber = number
+            guard !model.actionMath.isEmpty else { return }
+            if model.secondNumber.contains(TypeButtons.comma.rawValue) &&
+                    expression == TypeButtons.comma.rawValue { return }
+            
+            model.secondNumber = expression
         }
         
-        changedInputNumber?(self.getNumber())
+        changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
     }
     
     func getNumber() -> String {
-        if !inputNextNumber {
-            return model.firstNumber
+        if inputNextNumber {
+            return model.secondNumber
         }
         
-        return model.secondNumber
+        return model.firstNumber
     }
     
-    func deleteBackOneNumber() {
+    func changeActionNumber(typeButton: TypeButtons) {
+        guard !model.firstNumber.isEmpty else { return }
+        
         if !inputNextNumber {
-            model.firstNumber.remove(at: model.firstNumber.index(before: model.firstNumber.endIndex))
+            let endIndex = model.firstNumber.index(before: model.firstNumber.endIndex)
+            
+            if String(model.firstNumber[endIndex]) == TypeButtons.comma.rawValue {
+                model.firstNumber += "0"
+            }
+            
+            model.actionMath = typeButton.rawValue
+            inputNextNumber = true
+                
+            changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
+            
+        } else if model.secondNumber.isEmpty {
+            model.actionMath = typeButton.rawValue
+                
+            changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             
         } else {
-            model.secondNumber.remove(at: model.firstNumber.index(before: model.firstNumber.endIndex))
+            convertNumbers()
+            
+            let result = model.result
+            clearData()
+            
+            setNumber(result)
+
+            changeActionNumber(typeButton: typeButton)
         }
-    }
-    
-    func selectActionNumber(typeButton: TypeButtons) {
-        inputNextNumber = true
-        actionMath = typeButton
-        changedInputNumber?(getNumber())
     }
     
     func convertNumbers() {
         guard !model.firstNumber.isEmpty
-                && !model.secondNumber.isEmpty
-                && actionMath != nil else { return }
+                && !model.actionMath.isEmpty else { return }
+        
+        if model.secondNumber.isEmpty {
+            model.secondNumber = model.firstNumber
+        }
         
         model.firstNumber.replace(",", with: ".")
         model.secondNumber.replace(",", with: ".")
+        
+        if model.secondNumber.contains("(-") {
+            model.secondNumber = model.secondNumber.replacingOccurrences(of: "[(]{1}", with: "", options: .regularExpression)
+        }
 
         var firstNumber: Float = 0
         var secondNumber: Float = 0
@@ -115,56 +120,117 @@ private extension CalculatorScreenViewModel {
     func performActionMath(_ num1: Float, _ num2: Float) {
         var result = ""
         
-        switch actionMath {
-        case .addition:
+        switch model.actionMath {
+        case TypeButtons.addition.rawValue:
             result = String(num1 + num2)
-        case .subtraction:
+        case TypeButtons.subtraction.rawValue:
             result = String(num1 - num2)
-        case .multiplication:
+        case TypeButtons.multiplication.rawValue:
             result = String(num1 * num2)
-        case .division:
+        case TypeButtons.division.rawValue:
             if num2 == 0 {
                 result = "Error"
             } else {
                 result = String(num1 / num2)
             }
-        case .percent:
-            result = String(num1 / 100 * num2)
+        case TypeButtons.percent.rawValue:
+            result = String(num1 * num2 / 100)
         default:
             print("error")
         }
-        
-        result = result.replacingOccurrences(of: ".0{1}", with: "", options: .regularExpression)
-        result.replace(".", with: ",")
+        if result.range(of: ".*([.][0]{1})", options: .regularExpression, range: nil, locale: nil) != nil {
+            result = result.replacingOccurrences(of: "[.][0]{1}", with: "", options: .regularExpression)
+        } else {
+            result.replace(".", with: ",")
+        }
         
         model.result = result
         
         changedResultNumber?(model.result)
-        clearData()
     }
     
     func changeSignOfNumber() {
         let curNumber = getNumber()
-        if !curNumber.isEmpty && curNumber[curNumber.startIndex] == "-" {
+        
+        if !inputNextNumber && !curNumber.isEmpty && curNumber[curNumber.startIndex] == "-" {
+            
             var newNumber = curNumber
             newNumber.remove(at: curNumber.startIndex)
             
             setNumber(newNumber)
+            
+        } else if inputNextNumber {
+            if curNumber.contains("(-") {
+                let newNumber = curNumber.replacingOccurrences(of: "[(]{1}[-]{1}", with: "", options: .regularExpression)
+                
+                setNumber(newNumber)
+                return
+            }
+            
+            switch model.actionMath {
+            case TypeButtons.addition.rawValue:
+                model.actionMath = TypeButtons.subtraction.rawValue
+                changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
+            case TypeButtons.subtraction.rawValue:
+                model.actionMath = TypeButtons.addition.rawValue
+                changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
+            case TypeButtons.multiplication.rawValue, TypeButtons.division.rawValue:
+                setNumber("(-" + curNumber)
+            default:
+                print("error")
+            }
             
         } else {
             setNumber("-" + curNumber)
         }
     }
     
-    func getResult() -> String {
-        return model.result
-    }
-    
     func clearData() {
         model.firstNumber = String()
         model.secondNumber = String()
+        model.actionMath = String()
         model.result = String()
         
         inputNextNumber = false
+    }
+}
+
+// MARK: - Public extension properties
+
+extension CalculatorScreenViewModel {
+    func didSelectRow(at indexPath: IndexPath) {
+        let typeButton = TypeButtons.allCases[indexPath.row]
+        
+        switch typeButton {
+        case .ac:
+            clearData()
+            clearedData?()
+        case .percent, .addition, .subtraction, .multiplication, .division:
+            changeActionNumber(typeButton: typeButton)
+        case .equal:
+            convertNumbers()
+            clearData()
+        case .positiveNegative:
+            changeSignOfNumber()
+        default:
+            let curNumber = getNumber()
+            setNumber(curNumber + typeButton.rawValue)
+        }
+    }
+    
+    func didSelectDeleteButton() {
+        var number = ""
+        
+        if !inputNextNumber {
+            number = model.firstNumber
+            
+        } else {
+            number = model.secondNumber
+        }
+        
+        guard !number.isEmpty else {return}
+        
+        number.remove(at: number.index(before: number.endIndex))
+        setNumber(number)
     }
 }

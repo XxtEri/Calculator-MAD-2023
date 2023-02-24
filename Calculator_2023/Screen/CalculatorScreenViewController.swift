@@ -8,6 +8,9 @@
 import UIKit
 
 final class CalculatorScreenViewController: UIViewController {
+    
+    // MARK: - Private properties
+    
     private enum Metrics {
         static let countCell = 19
         static let itemsInRow = 4
@@ -16,7 +19,10 @@ final class CalculatorScreenViewController: UIViewController {
     }
     
     private var viewModel: CalculatorScreenViewModel
-    var ui: CalculatorScreenView
+    private var ui: CalculatorScreenView
+    
+    
+    // MARK: - Methods
     
     init(viewModel: CalculatorScreenViewModel) {
         self.ui = CalculatorScreenView(frame: .zero)
@@ -43,7 +49,34 @@ final class CalculatorScreenViewController: UIViewController {
 
 }
 
-extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// MARK: - Private extension properties
+
+private extension CalculatorScreenViewController {
+    func setHandlers() {
+        self.ui.didSelectDeleteButtonHandler = { [weak self] in
+            guard let self = self else { return }
+            
+            self.viewModel.didSelectDeleteButton()
+        }
+        
+        self.viewModel.changedInput = { [weak self] firstNumber, actionMath, secondNumber in
+            self?.ui.setInputExpression(firstNumber + actionMath + secondNumber)
+        }
+        
+        self.viewModel.changedResultNumber = { [weak self] number in
+            self?.ui.setResultNumberExpression(number)
+            self?.ui.setInputExpression("")
+        }
+        
+        self.viewModel.clearedData = { [weak self] in
+            self?.ui.clearData()
+        }
+    }
+}
+
+// MARK: - Public extension properties
+
+extension CalculatorScreenViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         Metrics.countCell
     }
@@ -57,7 +90,18 @@ extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionV
         
         return cell
     }
+}
+
+extension CalculatorScreenViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        self.viewModel.didSelectRow(at: indexPath)
+    }
+}
+
+extension CalculatorScreenViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath ) -> CGSize {
         
         let insetsSum = Metrics.itemSpace * (CGFloat(Metrics.itemsInRow) - 1)
@@ -77,36 +121,5 @@ extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Metrics.lineSpace
-    }
-}
-
-extension CalculatorScreenViewController {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        self.viewModel.didSelectRow(at: indexPath)
-    }
-}
-
-private extension CalculatorScreenViewController {
-    func setHandlers() {
-        self.ui.didSelectDeleteButtonHandler = { [weak self] in
-            guard let self = self else { return }
-            
-            self.viewModel.didSelectDeleteButton()
-        }
-        
-        self.viewModel.changedInputNumber = { [weak self] number in
-            self?.ui.setInputNumber(number)
-        }
-        
-        self.viewModel.changedResultNumber = { [weak self] number in
-            self?.ui.setResultNumber(number)
-            self?.ui.setInputNumber("")
-        }
-        
-        self.viewModel.clearedData = { [weak self] in
-            self?.ui.clearData()
-        }
     }
 }
