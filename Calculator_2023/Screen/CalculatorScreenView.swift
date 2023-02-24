@@ -10,6 +10,8 @@ import SnapKit
 
 class CalculatorScreenView: UIView {
     
+    // MARK: - Private properties
+    
     private enum Metrics {
         static let titleAppSizeFont: CGFloat = 28
         static let resultSizeFont: CGFloat = 57
@@ -95,7 +97,11 @@ class CalculatorScreenView: UIView {
         return view
     }()
     
+    // MARK: - Public properties
+    
     var didSelectDeleteButtonHandler: (() -> Void)?
+    
+    // MARK: - Methods
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -118,6 +124,8 @@ class CalculatorScreenView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - Private extension properties
 
 private extension CalculatorScreenView {
     func setup() {
@@ -171,6 +179,8 @@ private extension CalculatorScreenView {
     }
     
 }
+
+// MARK: - Public extension properties
 
 extension CalculatorScreenView {
     func setupCollectionView(delegate: UICollectionViewDelegate, dataOutput: UICollectionViewDataSource) {

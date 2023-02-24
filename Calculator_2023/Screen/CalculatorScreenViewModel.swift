@@ -8,53 +8,26 @@
 import Foundation
 
 final class CalculatorScreenViewModel {
+    
+    // MARK: - Private properties
+    
     private var inputNextNumber = false
     private var model: CalculatorScreenModel
+    
+    // MARK: - Public properties
 
     var changedInput: ((String, String, String) -> Void)?
     var changedResultNumber: ((String) -> Void)?
     var clearedData: (() -> Void)?
     
+    // MARK: - Methods
+    
     init() {
         self.model = CalculatorScreenModel()
     }
-    
-    func didSelectRow(at indexPath: IndexPath) {
-        let typeButton = TypeButtons.allCases[indexPath.row]
-        
-        switch typeButton {
-        case .ac:
-            clearData()
-            clearedData?()
-        case .percent, .addition, .subtraction, .multiplication, .division:
-            changeActionNumber(typeButton: typeButton)
-        case .equal:
-            convertNumbers()
-            clearData()
-        case .positiveNegative:
-            changeSignOfNumber()
-        default:
-            let curNumber = getNumber()
-            setNumber(curNumber + typeButton.rawValue)
-        }
-    }
-    
-    func didSelectDeleteButton() {
-        var number = ""
-        
-        if !inputNextNumber {
-            number = model.firstNumber
-            
-        } else {
-            number = model.secondNumber
-        }
-        
-        guard !number.isEmpty else {return}
-        
-        number.remove(at: number.index(before: number.endIndex))
-        setNumber(number)
-    }
 }
+
+// MARK: - Private extension properties
 
 private extension CalculatorScreenViewModel {
     func setNumber(_ expression: String) {
@@ -219,5 +192,45 @@ private extension CalculatorScreenViewModel {
         model.result = String()
         
         inputNextNumber = false
+    }
+}
+
+// MARK: - Public extension properties
+
+extension CalculatorScreenViewModel {
+    func didSelectRow(at indexPath: IndexPath) {
+        let typeButton = TypeButtons.allCases[indexPath.row]
+        
+        switch typeButton {
+        case .ac:
+            clearData()
+            clearedData?()
+        case .percent, .addition, .subtraction, .multiplication, .division:
+            changeActionNumber(typeButton: typeButton)
+        case .equal:
+            convertNumbers()
+            clearData()
+        case .positiveNegative:
+            changeSignOfNumber()
+        default:
+            let curNumber = getNumber()
+            setNumber(curNumber + typeButton.rawValue)
+        }
+    }
+    
+    func didSelectDeleteButton() {
+        var number = ""
+        
+        if !inputNextNumber {
+            number = model.firstNumber
+            
+        } else {
+            number = model.secondNumber
+        }
+        
+        guard !number.isEmpty else {return}
+        
+        number.remove(at: number.index(before: number.endIndex))
+        setNumber(number)
     }
 }
