@@ -43,7 +43,7 @@ final class CalculatorScreenViewController: UIViewController {
 
 }
 
-extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension CalculatorScreenViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         Metrics.countCell
     }
@@ -57,7 +57,18 @@ extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionV
         
         return cell
     }
+}
+
+extension CalculatorScreenViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        self.viewModel.didSelectRow(at: indexPath)
+    }
+}
+
+extension CalculatorScreenViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath ) -> CGSize {
         
         let insetsSum = Metrics.itemSpace * (CGFloat(Metrics.itemsInRow) - 1)
@@ -77,14 +88,6 @@ extension CalculatorScreenViewController: UICollectionViewDelegate,UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Metrics.lineSpace
-    }
-}
-
-extension CalculatorScreenViewController {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        self.viewModel.didSelectRow(at: indexPath)
     }
 }
 
