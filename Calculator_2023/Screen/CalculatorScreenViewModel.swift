@@ -34,7 +34,8 @@ final class CalculatorScreenViewModel {
         case .positiveNegative:
             changeSignOfNumber()
         default:
-            setNumber(typeButton.rawValue)
+            let curNumber = getNumber()
+            setNumber(curNumber + typeButton.rawValue)
         }
     }
     
@@ -55,27 +56,23 @@ final class CalculatorScreenViewModel {
     }
 }
 
-//исправить с проставлением минуса во втором числе при динамическом просчитывании чисел
-//если второе число не ввели, но есть мат знак, то берем и вычисляем результат с результатом
-//пробела, когда два раза вводишь мат знак
 
-//изменить на подставку выражения, а не числа куда-то
+//проблема, когда два раза вводишь мат знак
+
 private extension CalculatorScreenViewModel {
-    func setNumber(_ number: String) {
+    func setNumber(_ expression: String) {
         if !inputNextNumber {
             if model.firstNumber.contains(TypeButtons.comma.rawValue) &&
-                    number == TypeButtons.comma.rawValue { return }
+                    expression == TypeButtons.comma.rawValue { return }
             
-            let curNumber = getNumber()
-            model.firstNumber = curNumber + number
+            model.firstNumber = expression
             
         } else {
             guard !model.actionMath.isEmpty else { return }
             if model.secondNumber.contains(TypeButtons.comma.rawValue) &&
-                    number == TypeButtons.comma.rawValue { return }
+                    expression == TypeButtons.comma.rawValue { return }
             
-            let curNumber = getNumber()
-            model.secondNumber = curNumber + number
+            model.secondNumber = expression
         }
         
         changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
@@ -92,14 +89,14 @@ private extension CalculatorScreenViewModel {
     func changeActionNumber(typeButton: TypeButtons) {
         guard !model.firstNumber.isEmpty else { return }
         
-        model.actionMath = typeButton.rawValue
-        
         if !inputNextNumber {
             let endIndex = model.firstNumber.index(before: model.firstNumber.endIndex)
             
             if String(model.firstNumber[endIndex]) == TypeButtons.comma.rawValue {
                 model.firstNumber += "0"
             }
+            
+            model.actionMath = typeButton.rawValue
                 
             changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             inputNextNumber = true
@@ -111,14 +108,18 @@ private extension CalculatorScreenViewModel {
             clearData()
             
             setNumber(result)
+
             changeActionNumber(typeButton: typeButton)
         }
     }
     
     func convertNumbers() {
         guard !model.firstNumber.isEmpty
-                && !model.secondNumber.isEmpty
                 && !model.actionMath.isEmpty else { return }
+        
+        if model.secondNumber.isEmpty {
+            model.secondNumber = model.firstNumber
+        }
         
         model.firstNumber.replace(",", with: ".")
         model.secondNumber.replace(",", with: ".")
@@ -172,19 +173,16 @@ private extension CalculatorScreenViewModel {
     func changeSignOfNumber() {
         let curNumber = getNumber()
         
-        if !curNumber.isEmpty && !inputNextNumber && curNumber[curNumber.startIndex] == "-" {
+        if !inputNextNumber && !curNumber.isEmpty && curNumber[curNumber.startIndex] == "-" {
             
             var newNumber = curNumber
             newNumber.remove(at: curNumber.startIndex)
             
             setNumber(newNumber)
             
-        } else if curNumber.isEmpty && inputNextNumber {
-            setNumber("-" + curNumber)
-            
-        } else if !curNumber.isEmpty && inputNextNumber {
-            if curNumber.contains("[(-)]") {
-                let newNumber = curNumber.replacingOccurrences(of: "[()-]", with: "", options: .regularExpression)
+        } else if inputNextNumber {
+            if curNumber.contains("(-") {
+                let newNumber = curNumber.replacingOccurrences(of: "[(]{1}[-]{1}", with: "", options: .regularExpression)
                 
                 setNumber(newNumber)
                 return
@@ -192,17 +190,19 @@ private extension CalculatorScreenViewModel {
             
             switch model.actionMath {
             case TypeButtons.addition.rawValue:
-                changeActionNumber(typeButton: TypeButtons.subtraction)
+                model.actionMath = TypeButtons.subtraction.rawValue
+                changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             case TypeButtons.subtraction.rawValue:
-                changeActionNumber(typeButton: TypeButtons.addition)
+                model.actionMath = TypeButtons.addition.rawValue
+                changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
             case TypeButtons.multiplication.rawValue, TypeButtons.division.rawValue:
-                setNumber("(-" + curNumber + ")")
+                setNumber("(-" + curNumber)
             default:
                 print("error")
             }
-
+            
         } else {
-            setNumber("-")
+            setNumber("-" + curNumber)
         }
     }
     
