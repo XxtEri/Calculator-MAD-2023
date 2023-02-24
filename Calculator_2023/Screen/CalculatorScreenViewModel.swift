@@ -161,7 +161,7 @@ private extension CalculatorScreenViewModel {
                 result = String(num1 / num2)
             }
         case TypeButtons.percent.rawValue:
-            result = String(num1 / 100 * num2)
+            result = String(num1 * num2 / 100)
         default:
             print("error")
         }
