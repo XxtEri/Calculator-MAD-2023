@@ -103,7 +103,7 @@ class CalculatorScreenView: UIView {
     private lazy var buttons: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor(named: "BackgroundApp")
-//        view.isScrollEnabled = false
+        view.isScrollEnabled = false
         view.contentMode = .center
         
         view.register(CalculatorScreenCollectionViewCell.self, forCellWithReuseIdentifier: CalculatorScreenCollectionViewCell.reuseIdentifier)
@@ -172,31 +172,18 @@ private extension CalculatorScreenView {
         }
         
         self.result.snp.makeConstraints { make in
-//            make.height.greaterThanOrEqualTo(Metrics.resultHeight)
-//            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
-//            make.bottom.equalTo(self.stackInput.snp.top).inset(Metrics.resultInsetBottom)
             make.bottom.equalTo(self.delete.snp.top).multipliedBy(0.8)
             make.horizontalEdges.equalToSuperview()
         }
         
         self.input.snp.makeConstraints { make in
-//            make.verticalEdges.equalToSuperview()
-//            make.trailing.equalTo(self.delete.snp.leading).inset(-10)
             make.top.equalTo(self.result.snp.bottom)
             make.leading.equalToSuperview().inset(10)
             make.trailing.equalToSuperview().inset(50)
             make.bottom.equalTo(self.line.snp.top)
         }
-        
-//        self.stackInput.snp.makeConstraints { make in
-//            make.height.greaterThanOrEqualTo(Metrics.stackInputHeight)
-//            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
-//        }
-        
+
         self.line.snp.makeConstraints { make in
-//            make.height.equalTo(Metrics.lineHeight)
-//            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
-//            make.top.equalTo(stackInput.snp.bottom)
             make.height.equalTo(1)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()

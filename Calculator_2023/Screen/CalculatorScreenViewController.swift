@@ -22,7 +22,7 @@ final class CalculatorScreenViewController: UIViewController {
     private var ui: CalculatorScreenView
     
     
-    // MARK: - Methods
+    // MARK: - Init
     
     init(viewModel: CalculatorScreenViewModel) {
         self.ui = CalculatorScreenView(frame: .zero)
@@ -38,6 +38,8 @@ final class CalculatorScreenViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Methods
     
     override func loadView() {
         self.view = ui
@@ -104,21 +106,24 @@ extension CalculatorScreenViewController: UICollectionViewDelegate {
 extension CalculatorScreenViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath ) -> CGSize {
         
+
         let insetsSum = Metrics.itemSpace * (CGFloat(Metrics.itemsInRow) - 1)
-        let otherSpace = collectionView.frame.width - insetsSum
-        let cellWidth = otherSpace / CGFloat(Metrics.itemsInRow)
+        let cellWidth = (collectionView.bounds.size.width - insetsSum) / CGFloat(Metrics.itemsInRow)
         
+        let columnInsets = Metrics.lineSpace * (CGFloat(Metrics.itemsInRow) - 1) + 18 + collectionView.bounds.size.height / 6
+        let cellHeight = (collectionView.bounds.size.height - columnInsets) / CGFloat(Metrics.itemsInRow)
+
         if TypeButtons.allCases[indexPath.row] == TypeButtons.zero {
-            return CGSize(width: 2 * cellWidth + Metrics.itemSpace, height: cellWidth)
+            return CGSize(width: 2 * cellWidth + Metrics.itemSpace, height: cellHeight)
         }
-        
-        return CGSize(width: cellWidth, height: cellWidth)
+
+        return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         Metrics.itemSpace
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         Metrics.lineSpace
     }

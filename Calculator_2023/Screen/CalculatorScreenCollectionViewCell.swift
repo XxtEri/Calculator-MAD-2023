@@ -19,7 +19,7 @@ class CalculatorScreenCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleCell: UILabel = {
         let view = UILabel()
-        view.font = UIFont(name: TitleFonts.googlesansMedium, size: 32)
+        view.font = UIFont(name: TitleFonts.googlesansMedium, size: 22)
         view.textColor = UIColor(named: "Text")
         view.textAlignment = .center
         
