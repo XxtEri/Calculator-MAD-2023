@@ -6,7 +6,7 @@ A simple calculator as a pet project
 - UIKit
 - SnapKit
 - UserDefaults
-- VIPER architectural pattern
+- MVVM architectural pattern
 
 ## Screenshots
 <p>
