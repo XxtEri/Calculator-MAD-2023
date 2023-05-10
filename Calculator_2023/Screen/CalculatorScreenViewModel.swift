@@ -60,7 +60,12 @@ private extension CalculatorScreenViewModel {
     func changeActionNumber(typeButton: TypeButtons) {
         guard !model.firstNumber.isEmpty else { return }
         
-        if !inputNextNumber {
+        if model.firstNumber == "-" {
+            model.firstNumber.removeAll()
+                
+            changedInput?(model.firstNumber, model.actionMath, model.secondNumber)
+            
+        } else if !inputNextNumber {
             let endIndex = model.firstNumber.index(before: model.firstNumber.endIndex)
             
             if String(model.firstNumber[endIndex]) == TypeButtons.comma.rawValue {

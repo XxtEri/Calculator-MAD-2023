@@ -51,16 +51,28 @@ class CalculatorScreenView: UIView {
         view.textColor = UIColor(named: "Answer")
         view.font = UIFont(name: TitleFonts.googlesansMedium, size: Metrics.resultSizeFont)
         view.numberOfLines = Metrics.maxNumberOfLines
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.2
+        
+        return view
+    }()
+    
+    private lazy var inputBlockView: UIView = {
+        let view = UIView()
         
         return view
     }()
     
     private lazy var input: UILabel = {
         let view = UILabel()
-        view.textAlignment = .right
+        
         view.textColor = UIColor(named: "Text")
         view.font = UIFont(name: TitleFonts.googlesansRegular, size: Metrics.inputSizeFont)
+        view.textAlignment = .right
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.2
         view.numberOfLines = Metrics.maxNumberOfLines
+        view.backgroundColor = .clear
         
         return view
     }()
@@ -75,7 +87,7 @@ class CalculatorScreenView: UIView {
     }()
     
     private lazy var stackInput: UIStackView = {
-        let view = UIStackView(frame: .zero)
+        let view = UIStackView()
         view.axis = .horizontal
         
         return view
@@ -91,15 +103,19 @@ class CalculatorScreenView: UIView {
     private lazy var buttons: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.backgroundColor = UIColor(named: "BackgroundApp")
+        view.isScrollEnabled = false
+        view.contentMode = .center
         
         view.register(CalculatorScreenCollectionViewCell.self, forCellWithReuseIdentifier: CalculatorScreenCollectionViewCell.reuseIdentifier)
         
         return view
     }()
     
+    
     // MARK: - Public properties
     
     var didSelectDeleteButtonHandler: (() -> Void)?
+    
     
     // MARK: - Methods
 
@@ -107,14 +123,13 @@ class CalculatorScreenView: UIView {
         super.init(frame: frame)
         
         self.addSubview(titleApp)
-        self.addSubview(result)
-
-        stackInput.addArrangedSubview(input)
-        stackInput.addArrangedSubview(delete)
-        stackInput.setCustomSpacing(Metrics.spacingStackInput, after: input)
+        self.addSubview(inputBlockView)
         
-        self.addSubview(stackInput)
-        self.addSubview(line)
+        inputBlockView.addSubview(result)
+        inputBlockView.addSubview(input)
+        inputBlockView.addSubview(delete)
+        inputBlockView.addSubview(line)
+        
         self.addSubview(buttons)
         
         setup()
@@ -145,25 +160,37 @@ private extension CalculatorScreenView {
             make.bottom.equalTo(result.snp.top).inset(Metrics.titleAppInsetBottom)
         }
         
+        self.inputBlockView.snp.makeConstraints { make in
+            make.top.equalTo(self.titleApp.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(25)
+            make.height.equalToSuperview().multipliedBy(0.29)
+        }
+        
+        self.delete.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().multipliedBy(0.85)
+            make.trailing.equalToSuperview().inset(10)
+        }
+        
         self.result.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(Metrics.resultHeight)
-            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
-            make.bottom.equalTo(self.stackInput.snp.top).inset(Metrics.resultInsetBottom)
+            make.bottom.equalTo(self.delete.snp.top).multipliedBy(0.8)
+            make.horizontalEdges.equalToSuperview()
         }
         
-        self.stackInput.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(Metrics.stackInputHeight)
-            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
+        self.input.snp.makeConstraints { make in
+            make.top.equalTo(self.result.snp.bottom)
+            make.leading.equalToSuperview().inset(10)
+            make.trailing.equalToSuperview().inset(50)
+            make.bottom.equalTo(self.line.snp.top)
         }
-        
+
         self.line.snp.makeConstraints { make in
-            make.height.equalTo(Metrics.lineHeight)
-            make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
-            make.top.equalTo(stackInput.snp.bottom)
+            make.height.equalTo(1)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         self.buttons.snp.makeConstraints { make in
-            make.top.equalTo(line.snp.bottom).inset(Metrics.buttonsInsetTop)
+            make.top.equalTo(self.inputBlockView.snp.bottom).inset(Metrics.buttonsInsetTop)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).inset(Metrics.buttonsInsetBottom)
             make.horizontalEdges.equalToSuperview().inset(Metrics.horizontalInsetScreen)
         }
