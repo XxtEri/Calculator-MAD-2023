@@ -102,8 +102,16 @@ private extension CalculatorScreenViewModel {
             model.secondNumber = model.firstNumber
         }
         
-        model.firstNumber.replace(",", with: ".")
-        model.secondNumber.replace(",", with: ".")
+        if #available(iOS 16.0, *) {
+            model.firstNumber.replace(",", with: ".")
+        } else {
+            // Fallback on earlier versions
+        }
+        if #available(iOS 16.0, *) {
+            model.secondNumber.replace(",", with: ".")
+        } else {
+            // Fallback on earlier versions
+        }
         
         if model.secondNumber.contains("(-") {
             model.secondNumber = model.secondNumber.replacingOccurrences(of: "[(]{1}", with: "", options: .regularExpression)
@@ -145,7 +153,11 @@ private extension CalculatorScreenViewModel {
             print("error")
         }
         
-        result.replace(".", with: ",")
+        if #available(iOS 16.0, *) {
+            result.replace(".", with: ",")
+        } else {
+            // Fallback on earlier versions
+        }
         
         if result.range(of: ".+[,][0]{1}.+", options: .regularExpression, range: nil, locale: nil) == nil {
             result = result.replacingOccurrences(of: "[,][0]{1}", with: "", options: .regularExpression)

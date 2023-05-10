@@ -79,7 +79,6 @@
 				F384436D29A1DB610081DEC0 /* Resources */,
 				F36AE2FB299E4F5500D7AD54 /* Assets.xcassets */,
 				F36AE2FD299E4F5500D7AD54 /* LaunchScreen.storyboard */,
-				F36AE300299E4F5500D7AD54 /* Info.plist */,
 			);
 			path = Calculator_2023;
 			sourceTree = "<group>";
@@ -87,6 +86,7 @@
 		F384436C29A1DB530081DEC0 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				F36AE300299E4F5500D7AD54 /* Info.plist */,
 				F36AE2F2299E4F5400D7AD54 /* AppDelegate.swift */,
 				F36AE2F4299E4F5400D7AD54 /* SceneDelegate.swift */,
 			);
@@ -353,7 +353,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8F9BJF9KQ5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Calculator_2023/Info.plist;
+				INFOPLIST_FILE = Calculator_2023/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -381,7 +381,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8F9BJF9KQ5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Calculator_2023/Info.plist;
+				INFOPLIST_FILE = Calculator_2023/Application/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
